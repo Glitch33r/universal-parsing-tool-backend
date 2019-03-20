@@ -1,0 +1,31 @@
+{% extends 'default/index.html' %}
+
+{% block title %}Updating Bot{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'parts/breadcrumbs.html' with next='Bot update' %}
+{% endblock %}
+{% block content-body %}
+    <h1>Updating Bot</h1>
+    {% if form.errors %}
+        <div class="callout callout-danger">
+        <h5>Input error</h5>
+            {% for field in form %}
+                {% if field.errors %}
+                    <p>{{ field.label }}: {{ field.errors|striptags }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+     <div class="nav-tabs-responsive">
+        <form method="post">
+            {% csrf_token %}
+            <div class="card">
+                {% include 'bot/form/form.html' %}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary ml-auto">Update</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

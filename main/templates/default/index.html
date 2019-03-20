@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blank page{% endblock %}
+
+{% block sidebar-header %}
+    <div class="sidebar-header">
+        <svg class="avatar">
+            <use href="{% static 'main/img/faces.svg' %}#john"/>
+        </svg>
+        <div class="username">
+            <span>{{ user.get_username }}</span>
+            <small>{{ user.get_email }}</small>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content-body %}
+    Content goes here...
+{% endblock %}

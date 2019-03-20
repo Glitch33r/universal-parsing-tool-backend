@@ -1,0 +1,24 @@
+{% load widget_tweaks %}
+<form method="post">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>User: *</label>
+            {% render_field form.creator class+="form-control" %}
+        </div>
+        <div class="form-group col-md-6">
+            <label>Type: *</label>
+            {% render_field form.type class+="form-control" %}
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Data link:
+            <small class="text-muted">(optional)</small>
+        </label>
+        {% render_field form.link class+="form-control" %}
+    </div>
+    {#            {{ form.as_p }}#}
+    <div class="form-group d-flex">
+        <button type="submit" class="btn btn-primary ml-auto">{{ button }}</button>
+    </div>
+</form>

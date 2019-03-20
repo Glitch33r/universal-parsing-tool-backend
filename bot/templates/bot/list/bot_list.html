@@ -1,0 +1,94 @@
+{% extends 'default/index.html' %}
+
+{% block title %}Bot List{% endblock %}
+{% block breadcrumbs %}
+    {% include 'parts/breadcrumbs.html' with next='Bot List' %}
+{% endblock %}
+{% block content-body %}
+    <div class="container">
+        {% if messages %}
+            <div class="callout callout-info" id="opened">
+                <h5>Done!</h5>
+                {% for msg in messages %}
+                    <p {% if msg.tags %} class="{{ msg.tags }}"{% endif %}>{{ msg }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="card">
+            <div class="card-header">Bot List</div>
+            <div class="form-group col-md-8 search">
+                <input type="text" autocomplete="off" id="search-field" class="form-control"
+                       placeholder="Searching by bot name">
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Creator</th>
+                        <th>Created</th>
+                        <th>State</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    {% for bot in object_list %}
+                        <tr>
+                            <td>{{ bot.id }}</td>
+                            <td>{{ bot.name }}</td>
+                            <td>{{ bot.get_type_display }}</td>
+                            <td>{{ bot.creator.username }}</td>
+                            <td>{{ bot.createdAt }}</td>
+                            <td>{{ bot.get_currentState_display }}</td>
+                            <td>
+                                <a class="action-link" href="{% url 'bot:bot-update' pk=bot.id %}" title="Edit"><i
+                                        class="far fa-edit"></i></a>
+                                <a class="action-link" onclick="confirmDeletion()"
+                                        href='{% url 'bot:bot-delete' obj_id=bot.id %}' title="Remove">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td align="center" colspan="7">Sorry, we have not data here :(</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                {% include 'default/pagination.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $("#search-field").on("keyup", e => {
+            const {value} = e.target;
+            $('#spinner').spinner('show');
+            $.ajax({
+                url: '{% url 'bot:bot-list' %}',
+                data: {
+                    search: value,
+                    page: getUrlParameter('page')
+                },
+                type: 'GET'
+            }).done(function (responseData) {
+                if (responseData['type'] === 'search') {
+                    $('.card-footer').hide();
+                } else if (responseData['type'] === 'default') {
+                    $('.card-footer').show();
+                }
+                $('#tbody').html(responseData['response']);
+                $('#spinner').spinner('hide');
+            }).fail(function () {
+                console.log('Fail')
+            });
+        });
+    </script>
+{% endblock %}

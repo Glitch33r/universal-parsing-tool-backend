@@ -1,0 +1,43 @@
+.page-sign.sign-in {
+    background: linear-gradient(160deg, rgba(60, 162, 224, .25) 50%, rgba(241, 244, 245, .9) 50%), url('/static/main/img/rocky-mountain.jpg');
+}
+
+.app-sidebar .sidebar-header {
+    background-image: url('/static/main/img/sidebar-header.svg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.remove-button{
+    background: none !important;
+    border: none;
+    padding: 0 !important;
+    font: inherit;
+    /*border is optional*/
+    color: #2e8cc2;
+    cursor: pointer;
+}
+.pr-2 a{
+    color: #000;
+}
+.pr-2 a:hover{
+    color: #000;
+    text-decoration: none;
+}
+
+.action-link{
+    float: left;
+    padding-right: 10px;
+}
+
+.spinner.spinner-block{
+    z-index: 9999;
+}
+
+.search{
+    padding: 15px 0 0 20px;
+}
+
+.table-responsive{
+    padding-left: 25px;
+}

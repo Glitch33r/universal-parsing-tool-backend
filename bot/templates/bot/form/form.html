@@ -1,0 +1,65 @@
+{% load widget_tweaks %}
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a href="#bot" class="nav-link active" data-toggle="tab">
+            <i class="fas fa-robot mr-2"></i> Bot
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#code" class="nav-link" data-toggle="tab">
+            <i class="far fa-file-code mr-2"></i> Code
+        </a>
+    </li>
+</ul>
+<div id="tabContent" class="tab-content">
+    <div id="bot" class="tab-pane show active">
+        <a href="#bot-collapse" class="nav-link-collapse" data-toggle="collapse">
+            <i class="fas fa-robot mr-2"></i> Bot
+        </a>
+        <div id="bot-collapse" class="collapse show" data-parent="#tabContent">
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Name: *</label>
+                    {% render_field bot.name class+="form-control" %}
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>User: *</label>
+                        {% render_field bot.creator class+="form-control" %}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Type: *</label>
+                        {% render_field bot.type class+="form-control" %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Data link:
+                        <small class="text-muted">(optional)</small>
+                    </label>
+                    {% render_field bot.link class+="form-control" %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="code" class="tab-pane">
+        <a href="#code-collapse" class="nav-link-collapse" data-toggle="collapse">
+            <i class="far fa-file-code mr-2"></i> Code
+        </a>
+        <div id="code-collapse" class="collapse" data-parent="#tabContent">
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Title: </label>
+                    {% render_field code.title class+="form-control" %}
+                </div>
+{#                <div class="form-group">#}
+{#                    <label>Bot: </label>#}
+{#                    {% render_field code.bot class+="form-control" %}#}
+{#                </div>#}
+                <div class="form-group">
+                    <label>Code: </label>
+                    {% render_field code.code class+="form-control" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

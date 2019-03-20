@@ -1,0 +1,41 @@
+{% extends 'default/index.html' %}
+
+{% block title %}Creating bot {% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'parts/breadcrumbs.html' with next='Bot create' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block content-body %}
+    <h1>Creating Bot</h1>
+    {% if bot.errors %}
+        <div class="callout callout-danger">
+            <h5>Input error</h5>
+            {% for field in bot %}
+                {% if field.errors %}
+                    <p>{{ field.label }}: {{ field.errors|striptags }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% elif code.errors %}
+        <div class="callout callout-danger">
+            <h5>Input error</h5>
+            {% for field in code %}
+                {% if field.errors %}
+                    <p>{{ field.label }}: {{ field.errors|striptags }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="nav-tabs-responsive">
+        <form method="post">
+            {% csrf_token %}
+            <div class="card">
+                {% include 'bot/form/form.html' %}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary ml-auto">Create</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
