@@ -41,3 +41,8 @@
 .table-responsive{
     padding-left: 25px;
 }
+
+.badge-error {
+    color: white;
+    background-color: red;
+}

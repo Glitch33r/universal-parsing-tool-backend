@@ -1,0 +1,89 @@
+{% extends 'default/index.html' %}
+
+{% block title %}Code List{% endblock %}
+{% block breadcrumbs %}
+    {% include 'parts/breadcrumbs.html' with next='Code List' %}
+{% endblock %}
+{% block content-body %}
+    <div class="container">
+        {% if messages %}
+            <div class="callout callout-info" id="opened">
+                <h5>Done!</h5>
+                {% for msg in messages %}
+                    <p {% if msg.tags %} class="{{ msg.tags }}"{% endif %}>{{ msg }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="callout">
+            <p>Data saved in JSON format</p>
+        </div>
+        <div class="card">
+            <div class="card-header">Code List</div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Connected to bot</th>
+                        <th>Data</th>
+                        {#                        <th>Created</th>#}
+                        {#                        <th>Actions</th>#}
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    {% for item in object_list %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.bot.name }}</td>
+                            <td>{{ item.data }}</td>
+                            {#                            <td>{{ item.createdAt }}</td>#}
+                            {#                            <td>#}
+                            {#                                <a class="action-link" href="{% url 'bot:bot-update' pk=bot.id %}" title="Edit"><i#}
+                            {#                                        class="far fa-edit"></i></a>#}
+                            {#                                <a class="action-link" onclick="confirmDeletion()"#}
+                            {#                                        href='{% url 'bot:bot-delete' obj_id=bot.id %}' title="Remove">#}
+                            {#                                    <i class="fas fa-trash-alt"></i>#}
+                            {#                                </a>#}
+                            {#                            </td>#}
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td align="center" colspan="7">Sorry, we have not data here :(</td>
+                        </tr>,
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {#            <div class="card-footer">#}
+            {#                {% include 'default/pagination.html' %}#}
+            {#            </div>#}
+        </div>
+    </div>
+{% endblock %}
+
+{#{% block js %}#}
+{#    <script>#}
+{#        $("#search-field").on("keyup", e => {#}
+{#            const {value} = e.target;#}
+{#            $('#spinner').spinner('show');#}
+{#            $.ajax({#}
+{#                url: '{% url 'bot:bot-list' %}',#}
+{#                data: {#}
+{#                    search: value,#}
+{#                    page: getUrlParameter('page')#}
+{#                },#}
+{#                type: 'GET'#}
+{#            }).done(function (responseData) {#}
+{#                if (responseData['type'] === 'search') {#}
+{#                    $('.card-footer').hide();#}
+{#                } else if (responseData['type'] === 'default') {#}
+{#                    $('.card-footer').show();#}
+{#                }#}
+{#                $('#tbody').html(responseData['response']);#}
+{#                $('#spinner').spinner('hide');#}
+{#            }).fail(function () {#}
+{#                console.log('Fail')#}
+{#            });#}
+{#        });#}
+{#    </script>#}
+{#{% endblock %}#}

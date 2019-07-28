@@ -19,7 +19,7 @@ class Bot(models.Model):
     name = models.CharField(max_length=128, unique=True)
     type = models.CharField(max_length=1, choices=BOT_TYPE)
     currentState = models.CharField(max_length=2, choices=BOT_STATE, blank=True)
-    link = models.URLField(blank=True)
+    link = models.URLField(blank=False)
     createdAt = models.DateTimeField(auto_now_add=True, blank=True)
 
     creator = models.ForeignKey(
@@ -44,8 +44,8 @@ class Bot(models.Model):
 class Code(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     code = models.TextField(blank=True, null=True)
-    createdAt = models.DateTimeField(auto_now_add=True, blank=True)
-    modifiedAt = models.DateTimeField(blank=True, null=True)
+    createdAt = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    modifiedAt = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     bot = models.ForeignKey(
         Bot,
         on_delete=models.CASCADE,
@@ -53,8 +53,15 @@ class Code(models.Model):
         blank=True,
     )
 
-    # def get_absolute_url(self):
-    #     return reverse('bot:code')
+
+class Data(models.Model):
+    data = models.TextField(blank=True, null=True)
+    bot = models.ForeignKey(
+        Bot,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+    )
 
 
 class Log(models.Model):
@@ -66,12 +73,14 @@ class Log(models.Model):
     )
 
     level = models.CharField(max_length=1, choices=LOG_LEVELS)
-    createdAt = models.DateTimeField()
-    message = models.TextField()
+    createdAt = models.DateTimeField(auto_now=True,blank=True)
+    message = models.TextField(blank=True, null=True)
+
     bot = models.ForeignKey(
         Bot,
-        on_delete=models.CASCADE,
         null=True,
+        blank=True,
+        on_delete=models.CASCADE,
     )
 
     class Meta:

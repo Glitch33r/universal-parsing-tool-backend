@@ -1,0 +1,21 @@
+{% extends 'default/index.html' %}
+
+{% block title %}Function documentation {% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'parts/breadcrumbs.html' with next='Documentation / Functional' %}
+{% endblock %}
+{% load widget_tweaks %}
+
+{% block content-body %}
+    <h1>Documentation of existed functions</h1>
+    <div class="callout">
+        <p>It is recommended to be reviewed in detail for further usage</p>
+    </div>
+    <hr>
+    {% for obj in object_list %}
+        <h2>{{ obj.name }}</h2>
+        <p>{{ obj.doc|safe }}</p>
+    {% endfor %}
+
+{% endblock %}

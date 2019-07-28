@@ -29,7 +29,7 @@
                         <th>Type</th>
                         <th>Creator</th>
                         <th>Created</th>
-                        <th>State</th>
+{#                        <th>State</th>#}
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -41,14 +41,16 @@
                             <td>{{ bot.get_type_display }}</td>
                             <td>{{ bot.creator.username }}</td>
                             <td>{{ bot.createdAt }}</td>
-                            <td>{{ bot.get_currentState_display }}</td>
+{#                            <td>{{ bot.get_currentState_display }}</td>#}
                             <td>
                                 <a class="action-link" href="{% url 'bot:bot-update' pk=bot.id %}" title="Edit"><i
                                         class="far fa-edit"></i></a>
-                                <a class="action-link" onclick="confirmDeletion()"
-                                        href='{% url 'bot:bot-delete' obj_id=bot.id %}' title="Remove">
+                                <a class="action-link" onclick="return confirm('Are you sure you want to delete this item?');"
+                                   href='{% url 'bot:bot-delete' obj_id=bot.id %}' title="Remove">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
+                                <a class="edit-link" href="{% url 'bot:bot-run' pk=bot.id %}" title="Run"><i
+                                        class="fas fa-play"></i></a>
                             </td>
                         </tr>
                     {% empty %}

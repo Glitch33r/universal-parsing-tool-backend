@@ -9,16 +9,13 @@
         <td>
             <a class="edit-link" href="{% url 'bot:bot-update' pk=bot.id %}" title="Edit"><i
                     class="far fa-edit"></i></a>
-
-            <form id='form-delete' method="POST" action="{% url 'bot:bot-delete' obj_id=bot.id %}">
+            <form id='form-delete' method="POST" action="{% url 'bot:bot-delete' pk=bot.id %}">
                 {% csrf_token %}
                 <button class="remove-button" onclick="confirmDeletion()" title="Remove"
                         type="button">
                     <i class="fas fa-trash-alt"></i>
                 </button>
             </form>
-            <a class="edit-link" href="{% url 'bot:bot-run' pk=bot.id %}" title="Run"><i
-                    class="fas fa-play"></i></a>
         </td>
     </tr>
 {% empty %}

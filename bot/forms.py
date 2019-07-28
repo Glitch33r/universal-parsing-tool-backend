@@ -19,18 +19,20 @@ class BotForm(forms.ModelForm):
         return data
 
 
+class BotFormUpdate(forms.ModelForm):
+    disabled_fields = ('name', 'creator',)
+
+    class Meta:
+        model = Bot
+        fields = ['name', 'creator', 'type', 'link']
+
+    def __init__(self, *args, **kwargs):
+        super(BotFormUpdate, self).__init__(*args, **kwargs)
+        for field in self.disabled_fields:
+            self.fields[field].disabled = True
+
+
 class CodeForm(forms.ModelForm):
     class Meta:
         model = Code
         fields = ['title', 'code']
-
-    def clean_title(self):
-        title = self.cleaned_data['title']
-        # bot = self.cleaned_data['bot']
-
-        if Code.objects.filter(title=title).exists():
-            raise forms.ValidationError(
-                'This title already exists. Please, fix and try again.'
-            )
-
-        return title

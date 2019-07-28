@@ -1,13 +1,5 @@
 $('#spinner').spinner('hide');
 
-function confirmDeletion(e) {
-    if (!confirm("Are you sure you want to delete?")) {
-        e.preventDefault();
-    } else {
-        $('#form-delete').submit();
-    }
-};
-
 setTimeout(function () {
     $('#opened').hide()
 }, 3500);

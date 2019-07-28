@@ -19,23 +19,21 @@
         <div id="bot-collapse" class="collapse show" data-parent="#tabContent">
             <div class="card-body">
                 <div class="form-group">
-                    <label>Name: *</label>
+                    <label>Name: </label>
                     {% render_field bot.name class+="form-control" %}
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label>User: *</label>
+                        <label>User: </label>
                         {% render_field bot.creator class+="form-control" %}
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Type: *</label>
+                        <label>Type: </label>
                         {% render_field bot.type class+="form-control" %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Data link:
-                        <small class="text-muted">(optional)</small>
-                    </label>
+                    <label>Data link:</label>
                     {% render_field bot.link class+="form-control" %}
                 </div>
             </div>
@@ -51,10 +49,10 @@
                     <label>Title: </label>
                     {% render_field code.title class+="form-control" %}
                 </div>
-{#                <div class="form-group">#}
-{#                    <label>Bot: </label>#}
-{#                    {% render_field code.bot class+="form-control" %}#}
-{#                </div>#}
+                <div class="form-group">
+                    <label>Bot: </label>
+                    {% render_field code.bot class+="form-control" %}
+                </div>
                 <div class="form-group">
                     <label>Code: </label>
                     {% render_field code.code class+="form-control" %}

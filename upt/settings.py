@@ -29,23 +29,17 @@ ALLOWED_HOSTS = [
     '*'
 ]
 
-DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': lambda x: True
-}
-
-DEBUG_TOOLBAR_PATCH_SETTINGS = False
-
 INTERNAL_IPS = [
     '127.0.0.1',
-    '51.15.221.159'
+    # '51.15.221.159'
 ]
 
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = 'account/log-in/'
-LOGIN_URL = 'account/log-in/'
+LOGOUT_REDIRECT_URL = '/account/log-in/'
+LOGIN_URL = '/account/log-in/'
 
 # LOGIN_EXEMPT_URLS = (
-#  r'^legal/',  # allow any URL under /legal/*
+#   r'^account/log-in/',  # allow any URL under /legal/*
 # )
 # Application definition
 
@@ -73,7 +67,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'accounts.middleware.middleware.LoginRequiredMiddleware',
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'upt.urls'

@@ -1,12 +1,12 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.template.loader import render_to_string
-from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import (ListView, CreateView, UpdateView, DeleteView, DetailView)
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+import pdb
+
+from main.util import Spider
 from .forms import *
 from django.contrib import messages
-import pdb
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.template.loader import render_to_string
+from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def bot_list_view(request):
@@ -31,7 +31,6 @@ def bot_list_view(request):
                     'response': render_to_string('bot/list/bot_element.html', {'object_list': data})
                 }
             )
-
     return render(request, 'bot/list/bot_list.html', {'object_list': data})
 
 
@@ -44,7 +43,6 @@ def helper_for_pagination(request, p: Paginator):
         data = p.page(1)
     except EmptyPage:
         data = p.page(p.num_pages)
-
     return data
 
 
@@ -61,12 +59,10 @@ def bot_create_view(request):
             action = code.save(commit=False)
             action.bot = bot_obj
             action.save()
-
             messages.success(
                 request,
                 'Code for bot {} was created successfully!'.format(bot.cleaned_data['name'])
             )
-
             return redirect(reverse('bot:bot-list'))
     else:
         bot = BotForm(prefix="bot", initial={'creator': request.user, 'type': 'D'})
@@ -75,42 +71,84 @@ def bot_create_view(request):
     return render(request, 'bot/bot_create.html', {'bot': bot, 'code': code})
 
 
-def bot_update(request, pk):
+def bot_update_view(request, pk: int):
     obj_bot = get_object_or_404(Bot, pk=pk)
-    bot = BotForm(request.POST or None, instance=obj_bot)
+    bot = BotFormUpdate(request.POST or None, instance=obj_bot, prefix="bot")
+
     obj_code = get_object_or_404(Code, bot=obj_bot)
-    code = CodeForm(request.POST or None, instance=obj_code)
-    if bot.is_valid() and code.is_valid():
-        bot.save()
-        code.save()
-        messages.success(
-            request,
-            'Bot {} was updated successfully!'.format(bot.cleaned_data['name'])
-        )
-        return redirect(reverse('bot:bot-list'))
+    code = CodeForm(request.POST or None, instance=obj_code, prefix="code")
+
+    if request.method == 'POST':
+        if bot.is_valid() and code.is_valid():
+            bot.save()
+            code.save()
+            messages.success(
+                request,
+                'Bot {} was updated successfully!'.format(bot.cleaned_data['name'])
+            )
+            return redirect(reverse('bot:bot-list'))
 
     return render(request, 'bot/bot_update.html', {'bot': bot, 'code': code})
 
 
-def bot_delete(request, obj_id: int):
+def bot_delete_view(request, obj_id: int):
     obj = get_object_or_404(Bot, pk=obj_id)
     obj.delete()
+
     return redirect(reverse('bot:bot-list'))
 
 
-# class BotDeleteView(DeleteView):
-#     model = Bot
-#     # pdb.set_trace()
-#
-#     def get_success_url(self):
-#         return reverse('bot:bot-list')
+def bot_code_list_view(request):
+    object_list = Code.objects.all()
+    data = helper_for_pagination(request, Paginator(object_list, 10))
+
+    return render(request, 'code/list/code_list.html', {'object_list': data})
 
 
-class BotUpdateView(SuccessMessageMixin, UpdateView):
-    model = Bot
-    fields = ['creator', 'type', 'link']
-    template_name = 'bot/bot_update.html'
-    success_message = 'Bot was updated successfully'
+def bot_function_docs(request):
+    s = Spider('')
+    arr = []
+    for func in s.get_all_funcs:
+        arr.append(
+            {
+                'name': func,
+                'doc': getattr(Spider, func).__doc__
+            }
+        )
 
-    def get_success_url(self):
-        return reverse('bot:bot-list')
+    return render(request, 'documentation/index.html', {'object_list': arr})
+
+
+def run_bot(request, pk: int):
+    obj = get_object_or_404(Bot, pk=pk)
+    code = Code.objects.get(bot=obj)
+
+    existed_log = Log.objects.filter(bot_id=obj.id)
+    if existed_log:
+        for i in existed_log:
+            i.delete()
+
+    s = Spider(url=obj.link, id=pk)
+    s._get_tree_from_request()
+    try:
+        s.parse(code.code)
+    except:
+        return redirect(reverse('bot:bot-log'))
+
+    Data(bot_id=obj.id, data=s.data_to_json).save()
+    Log(bot_id=obj.id, message=f'Bot {obj.name} completed his work', level='S').save()
+
+    return redirect(reverse('bot:bot-log'))
+
+
+def log_list(request):
+    objs_list = Log.objects.all()
+
+    return render(request, 'log/list/log_list.html', {'logs': objs_list})
+
+
+def bot_data(request):
+    obj_list = Data.objects.all()
+
+    return render(request, 'data/list/list.html', {'object_list': obj_list})
+
