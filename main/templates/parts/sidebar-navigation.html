@@ -1,0 +1,72 @@
+<div id="sidebar-nav" class="sidebar-nav">
+    <ul>
+        <li>
+            <a href="#device-controls" data-toggle="collapse">
+                <span class="sidebar-nav-icon fas fa-passport"></span>
+                <span class="sidebar-nav-text">Documentation</span>
+            </a>
+            <ul id="device-controls" class="collapse" data-parent="#sidebar-nav">
+{#                <li><a href="#"><span class="sidebar-nav-icon fas fa-robot"></span>Bot</a></li>#}
+                <li><a href="{% url 'bot:func-docs' %}"><span class="sidebar-nav-icon far fa-file-code"></span>Functional</a></li>
+            </ul>
+            <hr>
+        </li>
+    </ul>
+    <ul>
+        <li>
+            <a href="{% url 'bot:bot-create' %}">
+                <span class="sidebar-nav-icon fas fa-hammer"></span>
+                <span class="sidebar-nav-text">Create Bot</span>
+            </a>
+        </li>
+{#        <li>#}
+{#            <a href="#">#}
+{#                <span class="sidebar-nav-icon fab fa-slack"></span>#}
+{#                <span class="sidebar-nav-text">Bot Logs</span>#}
+{#            </a>#}
+{#        </li>#}
+{#        <li>#}
+{#            <a href="#">#}
+{#                <span class="sidebar-nav-icon fas fa-file-alt"></span>#}
+{#                <span class="sidebar-nav-text">Bot Docs</span>#}
+{#            </a>#}
+{#        </li>#}
+    </ul>
+    <hr>
+    <ul>
+        <li>
+            <a href="#db" data-toggle="collapse">
+                <span class="sidebar-nav-icon fas fa-database"></span>
+                <span class="sidebar-nav-text">DB</span>
+            </a>
+            <ul id="db" class="collapse" data-parent="#sidebar-nav">
+                <li><a href="{% url 'bot:bot-list' %}"><span class="sidebar-nav-icon fas fa-robot"></span>Existed bots</a></li>
+                <li><a href="{% url 'bot:bot-data' %}"><span class="sidebar-nav-icon far fa-file-code"></span>Data</a></li>
+                <li><a href="{% url 'bot:bot-code-list' %}"><span class="sidebar-nav-icon fas fa-vote-yea"></span>Existed code</a></li>
+            </ul>
+            <hr>
+        </li>
+    </ul>
+{#    <ul>#}
+{#        <li>#}
+{#            <a href="{% url 'accounts:settings' %}">#}
+{#                <span class="sidebar-nav-icon fa fa-cog"></span>#}
+{#                <span class="sidebar-nav-text">Settings</span>#}
+{#            </a>#}
+{#        </li>#}
+{#        <li>#}
+{#            <a href="#">#}
+{#                <span class="sidebar-nav-icon far fa-clock"></span>#}
+{#                <span class="sidebar-nav-text">Timeline</span>#}
+{#            </a>#}
+{#        </li>#}
+{#    </ul>#}
+{#    <hr>#}
+    <ul>
+        <li><a href="{% url 'accounts:log-out' %}">
+            <span class="sidebar-nav-icon fa fa-power-off"></span>
+            <span class="sidebar-nav-text">Log out</span>
+        </a>
+        </li>
+    </ul>
+</div>
