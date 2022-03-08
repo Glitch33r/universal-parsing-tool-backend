@@ -15,7 +15,7 @@ falcon-core==0.0.26
 falcon-cors==1.1.7
 future==0.17.1
 gunicorn==19.9.0
-httpie==1.0.2
+httpie==3.1.0
 idna==2.7
 isort==4.3.21
 jedi==0.14.1
