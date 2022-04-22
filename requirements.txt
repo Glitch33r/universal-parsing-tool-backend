@@ -7,7 +7,7 @@ chardet==3.0.4
 colorama==0.4.1
 cssselect==1.0.3
 dj-database-url==0.5.0
-Django==2.2.3
+Django==2.2.28
 django-tinymce==2.8.0
 django-widget-tweaks==1.4.5
 falcon==2.0.0
